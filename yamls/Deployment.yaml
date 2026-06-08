@@ -23,7 +23,7 @@ spec:
         fsGroup: 10001
       containers:
         - name: backend
-          image: devops-user/rick-and-morty-app:latest
+          image: us-central1-docker.pkg.dev/devops-project/app-repo/rick-and-morty-app:latest
           imagePullPolicy: Always
           ports:
             - containerPort: 8080

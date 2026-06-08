@@ -1,7 +1,7 @@
 replicaCount: 2
 
 image:
-  repository: devops-user/rick-and-morty-app
+  repository: us-central1-docker.pkg.dev/devops-project/app-repo/rick-and-morty-app
   pullPolicy: Always
   tag: "latest"
 
