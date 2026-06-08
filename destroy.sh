@@ -67,4 +67,4 @@ fi
 
 # 7. Destroy GCP Infrastructure
 echo "Destroying GKE cluster and VPC network via Terraform..."
-terraform destroy
+terraform destroy "$@"
