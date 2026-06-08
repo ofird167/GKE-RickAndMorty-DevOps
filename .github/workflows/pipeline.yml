@@ -53,6 +53,7 @@ jobs:
       - name: Deploy Application via Helm
         run: |
           helm upgrade --install backend ./helm/backend \
+            --set image.repository=devops-user/rick-and-morty-app \
             --set image.tag=latest \
             --set image.pullPolicy=Never
 

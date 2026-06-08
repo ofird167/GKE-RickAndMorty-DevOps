@@ -1,7 +1,7 @@
 replicaCount: 1
 
 image:
-  repository: us-central1-docker.pkg.dev/devops-project/app-repo/rick-and-morty-app
+  repository: "us-central1-docker.pkg.dev/your-project-id/app-repo/rick-and-morty-app"
   pullPolicy: Always
   tag: "latest"
 
@@ -36,5 +36,5 @@ securityContext:
 
 env:
   PORT: "8080"
-  GCP_PROJECT_ID: "devops-project"
-  GCP_REGION: "us-central1"
+  GCP_PROJECT_ID: ""
+  GCP_REGION: ""
