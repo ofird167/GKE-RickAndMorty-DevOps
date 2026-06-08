@@ -1,0 +1,29 @@
+# Secrets and Environment Config
+secrets/
+.env
+.env.local
+.env.*
+
+# Logs
+logs/
+*.log
+
+# CSV Outputs
+results.csv
+
+# Terraform Files
+.terraform/
+*.tfstate
+*.tfstate.backup
+*.tfvars
+*.tfvars.json
+
+# Python Files
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.pytest_cache/
+.venv/
+venv/
+env/

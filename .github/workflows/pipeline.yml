@@ -1,0 +1,98 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: 'pip'
+
+      - name: Install Python Dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Run Pytest Unit Tests
+        run: |
+          pytest -v
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build Docker Image
+        run: |
+          docker build -t devops-user/rick-and-morty-app:latest .
+
+      - name: Start Minikube
+        uses: medyagh/setup-minikube@master
+        with:
+          container-runtime: docker
+
+      - name: Load Docker Image into Minikube
+        run: |
+          minikube image load devops-user/rick-and-morty-app:latest
+
+      - name: Install Helm
+        uses: azure/setup-helm@v4
+        with:
+          version: 'v3.14.0'
+
+      - name: Deploy Application via Helm
+        run: |
+          helm upgrade --install backend ./helm/backend \
+            --set image.tag=latest \
+            --set image.pullPolicy=Never
+
+      - name: Wait for Deployment to be Ready
+        run: |
+          kubectl rollout status deployment/backend --timeout=120s
+
+      - name: Verify Kubernetes Resources
+        run: |
+          kubectl get all
+          kubectl get ingress
+
+      - name: Test Endpoints
+        run: |
+          # Run port-forward in background to query endpoints
+          kubectl port-forward service/backend-service 8080:80 &
+          PID=$!
+          
+          # Wait for port-forward to establish
+          sleep 5
+          
+          # Query and assert healthcheck
+          echo "Testing healthcheck endpoint..."
+          HEALTH_STATUS=$(curl -s -o /dev/null -w "%{http_code}" http://127.0.0.1:8080/healthcheck)
+          if [ "$HEALTH_STATUS" -ne 200 ]; then
+            echo "Error: healthcheck returned HTTP $HEALTH_STATUS"
+            kill $PID
+            exit 1
+          fi
+          echo "Healthcheck: OK (200)"
+          
+          # Query characters endpoint
+          echo "Testing characters endpoint..."
+          CHARACTERS_STATUS=$(curl -s -o /dev/null -w "%{http_code}" http://127.0.0.1:8080/characters)
+          if [ "$CHARACTERS_STATUS" -ne 200 ]; then
+            echo "Error: /characters returned HTTP $CHARACTERS_STATUS"
+            kill $PID
+            exit 1
+          fi
+          echo "Characters API: OK (200)"
+          
+          # Terminate port-forward
+          kill $PID

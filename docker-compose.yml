@@ -1,0 +1,13 @@
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "${PORT:-8080}:${PORT:-8080}"
+    env_file:
+      - secrets/.env
+    environment:
+      - PORT=${PORT:-8080}
+    volumes:
+      - ./logs:/app/logs
