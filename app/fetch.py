@@ -18,7 +18,33 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
+import time
+
 API_URL = "https://rickandmortyapi.com/api/character"
+
+def get_with_retry(url, max_retries=5, backoff_factor=2):
+    """
+    Fetch a URL with retries on HTTP 429 (rate limits) and request exceptions.
+    """
+    retries = 0
+    while retries < max_retries:
+        try:
+            response = requests.get(url, timeout=10)
+            if response.status_code == 429:
+                sleep_time = backoff_factor ** retries
+                logger.warning(f"Rate limited (429) for {url}. Retrying in {sleep_time} seconds...")
+                time.sleep(sleep_time)
+                retries += 1
+                continue
+            response.raise_for_status()
+            return response
+        except requests.RequestException as e:
+            if retries == max_retries - 1:
+                raise
+            sleep_time = backoff_factor ** retries
+            logger.warning(f"Request failed: {e}. Retrying in {sleep_time} seconds...")
+            time.sleep(sleep_time)
+            retries += 1
 
 def fetch_and_filter_characters():
     """
@@ -37,8 +63,7 @@ def fetch_and_filter_characters():
     try:
         while url:
             logger.info(f"Fetching page {page} from {url}...")
-            response = requests.get(url, timeout=10)
-            response.raise_for_status()
+            response = get_with_retry(url)
             data = response.json()
 
             results = data.get("results", [])
@@ -57,6 +82,8 @@ def fetch_and_filter_characters():
 
             url = data.get("info", {}).get("next")
             page += 1
+            # Add a small delay between requests to prevent triggering rate limits
+            time.sleep(0.1)
             
         logger.info(f"Fetch completed. Found {len(filtered_characters)} characters matching the criteria.")
         return filtered_characters

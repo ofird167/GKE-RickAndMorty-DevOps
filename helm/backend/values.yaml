@@ -1,4 +1,4 @@
-replicaCount: 2
+replicaCount: 1
 
 image:
   repository: us-central1-docker.pkg.dev/devops-project/app-repo/rick-and-morty-app
@@ -23,11 +23,11 @@ ingress:
 
 resources:
   limits:
-    cpu: 250m
-    memory: 256Mi
-  requests:
     cpu: 100m
     memory: 128Mi
+  requests:
+    cpu: 10m
+    memory: 64Mi
 
 securityContext:
   runAsNonRoot: true
