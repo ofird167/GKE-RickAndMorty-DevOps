@@ -1,6 +1,6 @@
 # Rick and Morty GKE DevOps System
 
-This repository implements a complete end-to-end DevOps solution for filtering, exporting, and serving characters from the **Rick and Morty API** on **Google Cloud Platform (GCP)**. The stack is deployed on Google Kubernetes Engine (GKE) and managed using Terraform (with dynamic GCS remote state), Helm, and GitHub Actions (featuring Minikube integration testing).
+> ⚡ **Looking for the Quickstart?** Jump straight to the [DevOps Quickstart Guide (TL;DR)](readmeTL;DR.md).
 
 ---
 

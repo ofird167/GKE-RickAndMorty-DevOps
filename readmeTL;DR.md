@@ -1,6 +1,6 @@
 # DevOps Quickstart Guide (TL;DR)
 
-Follow these steps to deploy, test, and teardown the entire GKE DevOps environment on GCP.
+> 📚 **Looking for full details?** View the [Detailed Documentation Guide](README.md).
 
 ---
 
