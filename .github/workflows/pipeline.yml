@@ -34,7 +34,7 @@ jobs:
 
       - name: Build Docker Image
         run: |
-          docker build -t devops-user/rick-and-morty-app:latest .
+          docker build -t local/rick-and-morty-app:latest .
 
       - name: Start Minikube
         uses: medyagh/setup-minikube@master
@@ -43,7 +43,7 @@ jobs:
 
       - name: Load Docker Image into Minikube
         run: |
-          minikube image load devops-user/rick-and-morty-app:latest
+          minikube image load local/rick-and-morty-app:latest
 
       - name: Install Helm
         uses: azure/setup-helm@v4
@@ -53,7 +53,7 @@ jobs:
       - name: Deploy Application via Helm
         run: |
           helm upgrade --install backend ./helm/backend \
-            --set image.repository=devops-user/rick-and-morty-app \
+            --set image.repository=local/rick-and-morty-app \
             --set image.tag=latest \
             --set image.pullPolicy=Never
 
