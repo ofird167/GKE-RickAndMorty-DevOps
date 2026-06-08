@@ -27,6 +27,8 @@ resource "google_container_cluster" "primary" {
   name     = var.cluster_name
   location = var.gcp_zone
 
+  deletion_protection = false
+
   # We can't auto-create subnets or use default networks for security
   network    = google_compute_network.vpc.name
   subnetwork = google_compute_subnetwork.subnet.name
