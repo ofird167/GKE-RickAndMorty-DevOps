@@ -6,7 +6,7 @@ metadata:
   labels:
     app: backend
     environment: prod
-    owner: devops-user
+    owner: your-username
 spec:
   replicas: 1
   selector:
@@ -23,7 +23,7 @@ spec:
         fsGroup: 10001
       containers:
         - name: backend
-          image: us-central1-docker.pkg.dev/devops-project/app-repo/rick-and-morty-app:latest
+          image: us-central1-docker.pkg.dev/your-project-id/app-repo/rick-and-morty-app:latest
           imagePullPolicy: Always
           ports:
             - containerPort: 8080
@@ -32,7 +32,7 @@ spec:
             - name: PORT
               value: "8080"
             - name: GCP_PROJECT_ID
-              value: "devops-project"
+              value: "your-project-id"
             - name: GCP_REGION
               value: "us-central1"
           resources:

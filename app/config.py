@@ -20,17 +20,17 @@ else:
 PORT = int(os.getenv("PORT", 8080))
 
 # GCP Config
-GCP_PROJECT_ID = os.getenv("GCP_PROJECT_ID", "devops-project")
+GCP_PROJECT_ID = os.getenv("GCP_PROJECT_ID", "")
 GCP_REGION = os.getenv("GCP_REGION", "us-central1")
 GCP_ZONE = os.getenv("GCP_ZONE", "us-central1-a")
 
 # GCS Bucket Config
-GCS_BUCKET_NAME = os.getenv("GCS_BUCKET_NAME", "devops-project-tfstate-bucket")
+GCS_BUCKET_NAME = os.getenv("GCS_BUCKET_NAME", "")
 
 # Docker Configuration
-DOCKER_USERNAME = os.getenv("DOCKER_USERNAME", "devops-user")
+DOCKER_USERNAME = os.getenv("DOCKER_USERNAME", "")
 
 # App/Cluster Identifiers
 CLUSTER_NAME = os.getenv("CLUSTER_NAME", "devops-gke-cluster")
 ENVIRONMENT = os.getenv("ENVIRONMENT", "prod")
-OWNER = os.getenv("OWNER", "devops-user")
+OWNER = os.getenv("OWNER", "")
