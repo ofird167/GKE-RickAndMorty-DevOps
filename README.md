@@ -36,7 +36,7 @@ The application fetches paginated data from the upstream Rick and Morty API, fil
 ## Repository Structure
 
 ```text
-interview7/
+GKE-RickAndMorty-DevOps/
 ├── .github/
 │   └── workflows/
 │       └── pipeline.yml       # GitHub Actions pipeline (unit tests + Minikube deploy)
