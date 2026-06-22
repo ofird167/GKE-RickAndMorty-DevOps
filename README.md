@@ -94,7 +94,7 @@ Secrets and environment configurations must be loaded from `secrets/.env` (which
    - `GCP_REGION` / `GCP_ZONE`: Selected GCP deployment targets (defaults: `us-central1` and `us-central1-a`).
    - `GCS_BUCKET_NAME`: GCS bucket used for storing Terraform remote state files.
    - `DOCKER_USERNAME` / `DOCKER_PASSWORD`: Docker registry access credentials.
-   - `OWNER`: Your label identifier (e.g. `devops-user`).
+   - `OWNER`: Your label identifier (e.g. `ofird167`).
 
 ---
 
